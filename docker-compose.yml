@@ -4,6 +4,8 @@ services:
   elasticsearch:
     image: elasticsearch:7.14.0
     container_name: elasticsearch
+    volumes:
+      - ./data01:/usr/share/elasticsearch/data
     environment:
       discovery.type: single-node
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
@@ -39,11 +41,15 @@ services:
     hostname: configserver
     networks:
       - common
+  
   jenkins:
     build: ./jenkins
     container_name: jenkins
+    volumes:
+      - "./jenkins_home:/var/jenkins_home"
+      - "./jenkins/shared-lib:/tmp/shared-lib"
     environment:
-      CASC_JENKINS_CONFIG: "/tmp/jenkins.yml"
+      CASC_JENKINS_CONFIG: "/usr/share/jenkins/ref/jenkins.yml"
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
     ports:
       - "8080:8080"

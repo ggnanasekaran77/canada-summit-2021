@@ -15,14 +15,14 @@ unclassified:
     libraries:
       - defaultVersion: "master"
         implicit: true
-        name: "riaas-shared-lib"
+        name: "shared-lib"
         retriever:
           legacySCM:
             scm:
               filesystem:
                 clearWorkspace: false
                 copyHidden: false
-                path: "/tmp/riaas-shared-lib"
+                path: "/tmp/shared-lib"
 
   logFileFilterConfig:
     enabledDefaultRegexp: true
