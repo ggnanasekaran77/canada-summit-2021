@@ -13,7 +13,7 @@ def call (playbookPath, playbookName, extraVars) {
                 chmod +x ansible.sh
                 export playbookPath="${playbookPath}"
                 export playbookName="${playbookName}"
-                export extraVars="${extraVars} -e ansible_ssh_user=${USERNAME} -e ansible_become_pass=${PASSWORD} -e ansible_ssh_pass=${PASSWORD}"
+                export extraVars="${extraVars} -e ansible_ssh_user=${USERNAME} -e ansible_become_pass=${PASSWORD}"
                 sh -x ./ansible.sh
             """
         }

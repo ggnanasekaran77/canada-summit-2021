@@ -4,7 +4,7 @@ def call(pipelineYaml) {
     log.info "defaultPipeline pipelineYaml: ${pipelineYaml}"
 
     def gitURL = pipelineYaml.app?.git?.url?:""
-    def appBranch = "${appBranch}"?:"main"
+    def appBranch = "${appBranch}"?:""
     env.appName = pipelineYaml.app.name
     def playbookList
     if (appBranch == "main") {
@@ -52,7 +52,7 @@ def call(pipelineYaml) {
             }
             stage('Docker Build Publish') {
                 when {
-                    expression { return (pipelineYaml?.docker) }
+                    expression { return (pipelineYaml?.docker && params.appBranch) }
                 }
                 steps {
                     script {
