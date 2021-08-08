@@ -5,7 +5,14 @@ def call(pipelineYaml) {
 
     def gitURL = pipelineYaml.app?.git?.url?:""
     def appBranch = "${appBranch}"?:"main"
-    def playbookList = pipelineYaml.ansible?.default?:[:]
+    env.appName = pipelineYaml.app.name
+    if (appBranch == "main") {
+        def playbookList = pipelineYaml.ansible?.prd?:[:]
+        env.targetEnv = prd
+    } else {
+        def playbookList = pipelineYaml.ansible?.default?:[:]
+        env.targetEnv = stginventories1
+    }
 
     log.info "defaultPipeline gitURL: ${gitURL}"
     log.info "defaultPipeline playbookList: ${playbookList}"
@@ -20,13 +27,22 @@ def call(pipelineYaml) {
             timeout(time: 60, unit: 'MINUTES')
             disableConcurrentBuilds()
         }
+        parameters {
+            string(name: 'appBranch', defaultValue: 'main', description: "Application Branch name")
+        }
         stages {
             stage('Checkout') {
+                when {
+                    expression { return (params.appBranch) }
+                }
                 steps {
                     git url: gitURL, branch: appBranch
                 }
             }
             stage('App Build Publish') {
+                when {
+                    expression { return (params.appBranch) }
+                }
                 steps {
                     script {
                         build(pipelineYaml)
@@ -42,6 +58,9 @@ def call(pipelineYaml) {
                 }
             }
             stage('First Group Deploy') {
+                when {
+                    expression { return (playbookList?.first) }
+                }
                 steps {
                     script {
                         dir("ansbile") {
@@ -65,8 +84,18 @@ def call(pipelineYaml) {
                 }
             }
             stage('Second group Deploy') {
+                when {
+                    expression { return (playbookList?.second) }
+                }
                 steps {
-                    sh "echo Second group Deploy"
+                    script {
+                        dir("ansbile") {
+                            playbookList.second.each {
+                                def extraVars = it.extraVars
+                                ansible(it.playbookPath, it.playbookName, extraVars)
+                            }
+                        }
+                    }
                 }
             }
         }

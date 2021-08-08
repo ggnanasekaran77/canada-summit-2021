@@ -6,7 +6,8 @@ RUN set -x \
     && apt update \
     && apt install ansible --yes \
     && wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64.tar.gz -O - | tar xz  \
-    && mv yq_linux_amd64 /usr/bin/yq
+    && mv yq_linux_amd64 /usr/bin/yq \
+    && apt install docker
 
 USER jenkins
 ADD src/ /usr/share/jenkins/ref/init.groovy.d/
