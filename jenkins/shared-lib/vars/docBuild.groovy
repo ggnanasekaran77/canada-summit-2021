@@ -1,10 +1,12 @@
 #!groovy
 
-def call() {
+def call(imageName) {
 
-    docker.withRegistry('', 'docker') {
-        def dockerBuild = docker.build("ggnanasekaran77/${env.appName}")
-        dockerBuild.push()
-        dockerBuild.push('latest')
+    docker.withServer('ssh://gnanam@ggnanasekaran.com') {
+        docker.withRegistry('', 'docker') {
+            def dockerBuild = docker.build("${imageName}")
+            dockerBuild.push()
+            dockerBuild.push('latest')
+        }
     }
 }

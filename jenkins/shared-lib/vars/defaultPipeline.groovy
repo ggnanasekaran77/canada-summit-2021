@@ -6,12 +6,13 @@ def call(pipelineYaml) {
     def gitURL = pipelineYaml.app?.git?.url?:""
     def appBranch = "${appBranch}"?:"main"
     env.appName = pipelineYaml.app.name
+    def playbookList
     if (appBranch == "main") {
-        def playbookList = pipelineYaml.ansible?.prd?:[:]
-        env.targetEnv = prd
+        playbookList = pipelineYaml.ansible?.prd?:[:]
+        env.targetEnv = "prd"
     } else {
-        def playbookList = pipelineYaml.ansible?.default?:[:]
-        env.targetEnv = stginventories1
+        playbookList = pipelineYaml.ansible?.default?:[:]
+        env.targetEnv = "stg"
     }
 
     log.info "defaultPipeline gitURL: ${gitURL}"
@@ -54,7 +55,9 @@ def call(pipelineYaml) {
                     expression { return (pipelineYaml?.docker) }
                 }
                 steps {
-                    sh "echo Docker Build Publish"
+                    script {
+                        docBuild(pipelineYaml.docker.imageName)
+                    }
                 }
             }
             stage('First Group Deploy') {
