@@ -105,7 +105,17 @@ def call(pipelineYaml) {
         post {
             always {
                 script {
-                    publishToElastic("${pipelineYaml.pipelineName}", "cicd", "${pipelineYaml.app.projectName}", "${pipelineYaml.app.name}", "stg")
+                    publishToElastic("${pipelineYaml.pipelineName}", "cicd", "${pipelineYaml.app.projectName}", "${pipelineYaml.app.name}", "${env.targetEnv}")
+                }
+                cleanWs()
+                dir("${env.WORKSPACE}@tmp") {
+                    deleteDir()
+                }
+                dir("${env.WORKSPACE}@script") {
+                    deleteDir()
+                }
+                dir("${env.WORKSPACE}@script@tmp") {
+                    deleteDir()
                 }
             }
         }
