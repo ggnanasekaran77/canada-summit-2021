@@ -1,11 +1,11 @@
 version: '3.8'
-
 services:
   jenkins_docker:
     container_name: jenkins_docker
     image: docker:dind
-    hostname: 
-    ports: jenkins_docker
+    privileged: true
+    hostname: jenkins_docker 
+    ports:
       - "2376:2376"
     environment:
       DOCKER_TLS_CERTDIR: "/certs"
@@ -13,7 +13,7 @@ services:
       - "jenkins-docker-certs:/certs/client"
       - "jenkins_home:/var/jenkins_home"
     networks:
-      - common
+      - jenkins
   configserver:
     container_name: configserver
     image: ggnanasekaran77/configserver
@@ -31,7 +31,7 @@ services:
     image: ggnanasekaran77/jenkins
     container_name: jenkins
     volumes:
-      - "jenkins_home:/var/jenkins_home"
+      - "jenkins-data:/var/jenkins_home"
       - "./jenkins/shared-lib:/tmp/shared-lib"
       - "jenkins-docker-certs:/certs/client:ro"
     environment:
@@ -53,9 +53,8 @@ services:
       - common
 
 networks:
-  common:
+  jenkins:
     driver: bridge
 volumes:
-  jenkins_home:
   jenkins-docker-certs:
   jenkins-data:
