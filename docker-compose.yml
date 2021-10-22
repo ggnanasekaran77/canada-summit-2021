@@ -11,7 +11,7 @@ services:
       DOCKER_TLS_CERTDIR: "/certs"
     volumes:
       - "jenkins-docker-certs:/certs/client"
-      - "jenkins_home:/var/jenkins_home"
+      - "jenkins-data:/var/jenkins_home"
     networks:
       - jenkins
   configserver:
@@ -26,7 +26,7 @@ services:
       retries: 3
     hostname: configserver
     networks:
-      - common
+      - jenkins
   jenkins:
     image: ggnanasekaran77/jenkins
     container_name: jenkins
@@ -50,7 +50,7 @@ services:
       - configserver
       - jenkins_docker
     networks:
-      - common
+      - jenkins
 
 networks:
   jenkins:
