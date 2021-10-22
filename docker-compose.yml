@@ -1,36 +1,9 @@
 version: '3.8'
 
 services:
-  elasticsearch:
-    image: elasticsearch:7.14.0
-    container_name: elasticsearch
-    volumes:
-      - ./data01:/usr/share/elasticsearch/data
-    environment:
-      discovery.type: single-node
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    healthcheck:
-      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
-    networks:
-      - common
-  kibana:
-    image: kibana:7.14.0
-    container_name: kibana
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
-    networks:
-      - common
   configserver:
-    build: ./configserver
     container_name: configserver
+    image: ggnanasekaran77/configserver
     ports:
       - "8888:8888"
     healthcheck:
@@ -43,10 +16,10 @@ services:
       - common
 
   jenkins:
-    build: ./jenkins
+    image: ggnanasekaran77/jenkins
     container_name: jenkins
     volumes:
-      - "./jenkins_home:/var/jenkins_home"
+      - "jenkins_home:/var/jenkins_home"
       - "./jenkins/shared-lib:/tmp/shared-lib"
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
@@ -59,11 +32,11 @@ services:
       - configserver
     links:
       - configserver
-      - elasticsearch
-      - kibana
     networks:
       - common
 
 networks:
   common:
     driver: bridge
+volumes:
+  jenkins_home:
