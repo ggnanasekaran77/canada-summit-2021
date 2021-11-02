@@ -28,6 +28,7 @@ services:
     networks:
       - jenkins
   jenkins:
+    build: ./jenkins
     image: ggnanasekaran77/jenkins
     container_name: jenkins
     volumes:
