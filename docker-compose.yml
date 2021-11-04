@@ -1,5 +1,32 @@
 version: '3.8'
 services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.1
+    container_name: elasticsearch
+    volumes:
+      - ./data01:/usr/share/elasticsearch/data
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms1024m -Xmx1024m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    networks:
+      - jenkins
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.1
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - jenkins
   jenkins_docker:
     container_name: jenkins_docker
     image: docker:dind
@@ -52,7 +79,8 @@ services:
       - jenkins_docker
     networks:
       - jenkins
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 networks:
   jenkins:
     driver: bridge

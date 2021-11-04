@@ -6,7 +6,8 @@ def call(def pipelineName, def jobType, def projectName="unknown", def appName="
     def Id = new Date().format("yyyyMMddHHmmssms")
     def elasticURL = "http://elasticsearch:9200"
     def indexName = "jenkins-2021"
-    def jenkinsName = "${JOB_URL}".tokenize('/')[1]
+    // def jenkinsName = "${JOB_URL}".tokenize('/')[1]
+    def jenkinsName = "localhost"
     def nodeName = "${NODE_NAME}"
     def json = new groovy.json.JsonBuilder()
 

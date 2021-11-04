@@ -11,3 +11,5 @@ role-strategy
 docker-workflow
 docker-plugin
 kubernetes
+multibranch-scan-webhook-trigger
+basic-branch-build-strategies
