@@ -1,15 +1,9 @@
 jenkins:
-  systemMessage: |
-    <p>Welcome to our CICD Platform.</p>
-    <p>This Jenkins is 100% configured and managed as code.</p>
-
+  systemMessage: "This Jenkins is 100% configured and managed as code."
   slaveAgentPort: 50000
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
-  markupFormatter:
-    rawHtml:
-      disableSyntaxHighlighting: false
 unclassified:
   globalLibraries:
     libraries:
@@ -32,9 +26,4 @@ unclassified:
         replacement: "ansible_become_pass=*************"
       - regexp: "ansible_ssh_pass=(\\S)+"
         replacement: "ansible_ssh_pass=*************"
-security:
-  envInject:
-    hideInjectedVars: true
-  globalJobDslSecurityConfiguration:
-    useScriptSecurity: false
 

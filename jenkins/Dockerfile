@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.289.3-lts
+FROM jenkins/jenkins:2.303.2-lts
 
 USER root
 RUn set -x \
