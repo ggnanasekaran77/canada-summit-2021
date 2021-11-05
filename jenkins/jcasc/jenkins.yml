@@ -6,29 +6,29 @@ credentials:
           description: "jenkins-service-token"
           id: "jenkins-service-token-1"
           scope: GLOBAL
-          secret: "eyJhbGciOiJSUzI1NiIsImtpZCI6IktkUXRmcmR0MGg0UlZaeUo2b09xUEJuU0JLa1I5LTEwUm1NVGNUNWhUUVkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJqZW5raW5zIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImplbmtpbnMtdG9rZW4tcGp3OGoiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiamVua2lucyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImYyYTljYzNjLTA4NDYtNDUxZS05ZmJjLTMwYTVmZTRmZWVhNSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpqZW5raW5zOmplbmtpbnMifQ.opGAY5V0I-7qoJ2QpQ1mpJimzXrNVsSKX-y9otDnFHR0oQrUD8dPN-J04zvSpz33gtRfuhOnSuOQFM79mipBDTREWcEevU8htjH7i95fOPKsYO4fv-spC6bOuqtpqFy5pktX3oKK_fq6WMgyBc5YKKUEBhhlgadpFCrrNoWM7g8wdJiRoKx8DmWOJLj4XXEFn8csY0zOiahH2RsSQscIM-5rC6ofO0kIyO_Hv9bRYtTtd_6oCjeeyj7-lVyEkfk25rMaI5VXDjhIXf6Ejq0kYNt5GCaWTQyJ4y20Oj0lYZoFptbt2xU1kXdjve9tAEvEoldR9wOFB5uE2Sf7OOULag"
+          secret: ""
       - usernamePassword:
           description: "docker-hub-token"
           id: "docker-hub-token"
-          password: "69df174c-82ea-4c80-9e50-7b4ba4ad34ac"
+          password: ""
           scope: GLOBAL
           username: "ggnanasekaran77"
       - usernamePassword:
           description: "github-http-user-token"
           id: "github-http-user-token"
-          password: "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"
+          password: ""
           scope: GLOBAL
           username: "ggnanasekaran77"
       - string:
           description: "sonarcloud-token"
           id: "sonarcloud-token"
           scope: GLOBAL
-          secret: "8247b583e2ae3bfa87fe9abe863f88f8e8415909"
+          secret: ""
       - string:
           description: "github-token"
           id: "github-token"
           scope: GLOBAL
-          secret: "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"
+          secret: ""
 jenkins:
   securityRealm:
     local:
@@ -49,7 +49,3 @@ jenkins:
   numExecutors: 1
   slaveAgentPort: 50000
   systemMessage: "This Jenkins is 100% configured and managed as code."
-unclassified:
-  location:
-    adminAddress: "Gnanasekaran, Gajendiran<gnanasekaran.gajendi@gmail.com>"
-    url: "http://ASRHQra0055.intra.rakuten.co.jp:8080/"
