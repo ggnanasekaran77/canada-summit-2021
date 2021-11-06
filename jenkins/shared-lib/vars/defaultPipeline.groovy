@@ -28,6 +28,10 @@ def call(pipelineYaml) {
             timeout(time: 60, unit: 'MINUTES')
             disableConcurrentBuilds()
         }
+        environment {
+            GITHUB = credentials('github-http-user-token')
+            SONAR_TOKEN = credentials('sonarcloud-token')
+        }
         parameters {
             string(name: 'appBranch', defaultValue: 'main', description: "Application Branch name")
         }

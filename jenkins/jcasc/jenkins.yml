@@ -1,9 +1,65 @@
 jenkins:
-  systemMessage: "This Jenkins is 100% configured and managed as code."
-  slaveAgentPort: 50000
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+       - id: admin
+         password: admin
+  authorizationStrategy:
+    globalMatrix:
+      grantedPermissions:
+        - "Overall/Read:anonymous"
+        - "Job/Read:anonymous"
+        - "View/Read:anonymous"
+        - "Overall/Administer:authenticated"
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: true
+  numExecutors: 1
+  slaveAgentPort: 50000
+  systemMessage: "This Jenkins is 100% configured and managed as code."
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - string:
+          description: "artifactory"
+          id: "artifactory"
+          scope: GLOBAL
+          secret: "${artifactory}"
+      - string:
+          description: "kube-jenkins-token"
+          id: "kube-jenkins-token"
+          scope: GLOBAL
+          secret: "${kube-jenkins-token}"
+      - usernamePassword:
+          description: "docker-hub-token"
+          id: "docker-hub-token"
+          password: "${docker-hub-token}"
+          scope: GLOBAL
+          username: "ggnanasekaran77"
+      - usernamePassword:
+          description: "gnanam"
+          id: "ansible"
+          password: "${ansible}"
+          scope: GLOBAL
+          username: "${ansible}"
+      - usernamePassword:
+          description: "github-http-user-token"
+          id: "github-http-user-token"
+          password: "${github-http-user-token}"
+          scope: GLOBAL
+          username: "ggnanasekaran77"
+      - string:
+          description: "sonarcloud-token"
+          id: "sonarcloud-token"
+          scope: GLOBAL
+          secret: "${sonarcloud-token}"
+      - string:
+          description: "github-token"
+          id: "github-token"
+          scope: GLOBAL
+          secret: "${github-token}"
 unclassified:
   globalLibraries:
     libraries:
@@ -26,4 +82,17 @@ unclassified:
         replacement: "ansible_become_pass=*************"
       - regexp: "ansible_ssh_pass=(\\S)+"
         replacement: "ansible_ssh_pass=*************"
+jobs:
+  - script: >
+      pipelineJob('seedJob') {
+          parameters {
+              stringParam('pattern', '', '<p><b>Example:</b></p><p>demo</p><p>demo/hello</p>')
+          }
+          definition {
+            cps {
+              sandbox(true)
+              script("seedJob()")
+            }
+          }
+      }
 

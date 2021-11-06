@@ -3,6 +3,7 @@
 def call(pipelineYaml) {
 
     def appBuildCommand = pipelineYaml.app?.build?.command?:""
+    appBuildCommand = "${appBuildCommand} -Dsonar.branch.name=${env.appBranch}"
     appBuildCommand = "${appBuildCommand}".toString()
 
     log.info "build appBuildCommand: ${appBuildCommand}"

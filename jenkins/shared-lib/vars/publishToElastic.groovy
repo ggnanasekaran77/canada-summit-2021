@@ -5,10 +5,14 @@ def call(def pipelineName, def jobType, def projectName="unknown", def appName="
     def dateTime = new Date().format("yyyy-MM-dd HH:mm:ss")
     def Id = new Date().format("yyyyMMddHHmmssms")
     def elasticURL = "http://elasticsearch:9200"
-    def indexName = "jenkins-2021"
-    def jenkinsName = "${JOB_URL}".tokenize('/')[1]
+    def indexName = "cicd-jenkins-2021"
     def nodeName = "${NODE_NAME}"
     def json = new groovy.json.JsonBuilder()
+    def status = "${currentBuild.result}"
+
+    if(jobType == "seed") {
+        status = "SUCCESS"
+    }
 
     def jobInfo = """ { 
                         "job_base_name": "${JOB_BASE_NAME}",  
@@ -16,7 +20,7 @@ def call(def pipelineName, def jobType, def projectName="unknown", def appName="
                         "job_type": "${jobType}",
                         "pipeline": "${pipelineName}",
                         "date": "${dateTime}",
-                        "status": "${currentBuild.result}",
+                        "status": "${status}",
                         "build_number": "${currentBuild.number}",
                         "projectName": "${projectName}",
                         "appName": "${appName}",

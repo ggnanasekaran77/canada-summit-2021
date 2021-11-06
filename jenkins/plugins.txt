@@ -14,3 +14,8 @@ jacoco
 sonar
 role-strategy
 filesystem_scm
+kubernetes
+pipeline-stage-view
+blueocean
+multibranch-scan-webhook-trigger
+basic-branch-build-strategies
