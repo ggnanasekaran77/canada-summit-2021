@@ -2,3 +2,4 @@ jenkins_home
 data01
 .idea
 .env
+configserver/build
